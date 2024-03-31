@@ -1,53 +1,66 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-vector<pair<int, int>> d = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
-int n, m;
-int a[205][205];
-long long ans=0;
-bool valid(int i, int j)
+ vector<pair<int,int>>d={{-1,1},{-1,-1},{1,1},{1,-1}};
+ long long a[205][205];
+ int n,m;
+bool valid(int i,int j)
 {
-    if (i < 0 || i >= n || j < 0 || j >= m)
-        return false;
-    return true;
+    if(i>=n||i<0||j<0||j>=m)
+    return false;
+return true;
 }
-void bishop(int si, int sj)
+int bishop(int si,int sj)
 {
-    long long sum = 0;
-    for (int k = 0; k < 4;k++) {
-        int ci = si, cj = sj; 
-        while (valid(ci, cj)) {
-            sum += a[ci][cj];
-            ci += d[k].first; 
-            cj += d[k].second;
+    long long sum=a[si][sj];
+    for(int i=0;i<4;i++)
+    {
+        int ci=si,cj=sj;
+        while(valid(ci,cj)){
+         ci+=d[i].first;
+         cj+=d[i].second;
+         if(valid(ci,cj))
+         {
+            sum+=a[ci][cj];
+         }
         }
     }
-    sum-=a[si][sj];
-    ans = max(ans, sum);
+    return sum;
 }
-
 int main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
     int t;
     cin>>t;
-    while(t--){
-    cin >> n >> m;
-    for (int i = 0; i < n; i++)
+    while(t--)
     {
-        for (int j = 0; j < m; j++)
+        cin>>n>>m;
+        for(int i=0;i<n;i++)
         {
-            cin >> a[i][j];
+            for(int j=0;j<m;j++)
+            {
+                cin>>a[i][j];
+            }
         }
-    }
-      for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
+        long long ans=0;
+         for(int i=0;i<n;i++)
         {
-            bishop(i,j);
+            for(int j=0;j<m;j++)
+            {
+               long long x= bishop(i,j);
+               if(x>ans){
+                ans=x;
+               }
+             }
         }
-    }
-   cout<<ans<<'\n';
+        cout<<ans<<'\n';
+       for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                a[i][j]=0;
+            }
+        }
     }
     return 0;
 }
